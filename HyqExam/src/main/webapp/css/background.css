@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{ margin: 0;
+    padding: 0;
+	font-size:13px;}
+a {
+    text-decoration: none;
+}
+li {
+    list-style: none;
+}
+
+/*====================================头部=====================================================*/
+#head1
+{
+	height:60px;
+	width:100%;
+}
+#head1_left
+{
+	float:left;
+}
+
+#head1_right
+{
+	float:right;
+}
+#head1_right_name{float:left;}
+#head1_right_setting{float:left;}
+
+#head2{height:36px;width:100%;}
+#head2_left{float:left;padding-left:100px;}
+.head2_left_line{border-left: 1px solid #005a98;border-right: 1px solid #a0c6e1;width: 0px;height: 17px;}
+#head2_left_func{padding-top: 2px;margin-top: 0px;}
+.sty{padding-left:3px;}
+#head2_left_func li{float:left;margin:4px;}
+#head2_right{float:left;padding-left:200px;}
+
+#center_right{float:right;}
+
+/*======================================头部end ============================================= */

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyq.mapper.NoticeMapper">
+
+	<!-- 插入一条公告 -->
+	<insert id="saveNotice" parameterType="notice" useGeneratedKeys="true" keyProperty="id">
+		insert into t_notice(title,content,deployer,deployTime,position) values(#{title},#{content},#{deployer},#{deployTime},#{position})
+	</insert>
+
+	<!-- 获取公告的总记录数 -->
+	<select id="findTotalRecord" resultType="int">
+		select count(*) from t_notice
+	</select>
+	
+	<!-- 分页查询公告 -->
+	<select id="findByMap" resultType="notice" parameterType="map">
+		select * from t_notice
+		order by position asc
+		<if test="startIndex!=null and  pageSize !=null">
+			limit #{startIndex},#{pageSize} 
+		</if>
+	</select>
+	
+	
+	<!-- 通过id获取一个公告 -->
+	<select id="getById" resultType="notice" parameterType="int">
+		select * from t_notice where id = #{id}
+	</select>
+	
+	<!-- 更新公告 -->
+	<update id="updateNotice" parameterType="notice" useGeneratedKeys="true" keyProperty="id">
+		update t_notice set 
+		title=#{title},content=#{content},deployer=#{deployer},deployTime=#{deployTime},position=#{position}
+		where id = #{id}
+	</update>
+
+	<!-- 根据id删除一条公告 -->
+	<delete id="deleteById" parameterType="int">
+		delete from t_notice where id = #{id}
+	</delete>
+	
+	<!-- 查询所有 -->
+	<select id="getAll" resultType="notice">
+		select * from t_notice order by position asc
+	</select>
+	
+	<!-- 根据位置查找一个公告 -->
+	<select id="findByPosition" resultType="notice" parameterType="int">
+		select * from t_notice where position = #{position}
+	</select>
+	
+	<!-- 根据id更新一个公告 postion（传入的postion值是上一个记录或下一个记录的） -->
+	<update id="updatePositionById" parameterType="noticeMoveVo">
+		update t_notice set position = #{position} where id = #{id}
+	</update>
+	
+	<!-- 获取最大的一个position -->
+	<select id="getMaxPosition" resultType="int">
+		select max(position) from t_notice
+	</select>
+
+
+</mapper>

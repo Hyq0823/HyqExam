@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<path>
+	<!-- 前台 -->
+	<node>/foreground/main</node>
+	<node>/loginUI</node>
+	<node>/login</node>
+	
+	<!-- 后台管理员登录 -->
+	<node>/background/loginRequest</node>
+	<node>/loginAdmin</node>
+	
+</path>

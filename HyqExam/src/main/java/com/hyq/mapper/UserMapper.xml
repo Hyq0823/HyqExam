@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyq.mapper.UserMapper">
+
+	<!-- 插入一个用户 -->
+	<insert id="insertUser" parameterType="user">
+		<selectKey keyProperty="id" order="BEFORE" resultType="string">
+			select uuid()
+		</selectKey>
+		insert into
+		t_user(id,nickname,password)value(#{id},#{nickname},#{password})
+	</insert>
+
+	<!-- 登录一个用户 -->
+	<select id="getUserInfo" parameterType="user" resultType="user">
+		select
+		* from t_user where nickname = #{nickname} and
+		password=#{password}
+	</select>
+
+	<!-- 获取所有信息 -->
+	<select id="getUserDetailInfo" parameterType="user" resultType="user">
+		select * from t_user where id=#{id} and nickname = #{nickname} and
+		password = #{password}
+	</select>
+
+
+<!-- 存储用户的详细信息 -->
+	<update id="saveBaseInfo" parameterType="user">
+		update t_user set truename =#{truename}
+		<if test="sex!=null">,sex=#{sex}</if>
+		<if test="phone!=null">,phone=#{phone}</if>
+		<if test="password!=null">,password=#{password}</if>
+		<if test="email!=null">,email=#{email}</if>
+		<if test="nickname!=null">,nickname=#{nickname}</if>
+		<if test="idCardType!=null">,idCardType=#{idCardType}</if>
+		<if test="idCardNumber!=null">,idCardNumber=#{idCardNumber}</if>
+		<if test="birth!=null">,birth=#{birth}</if>
+		<if test="address!=null">,address=#{address}</if>
+		<if test="status!=null">,status=#{status}</if>
+		<if test="education!=null">,education=#{education}</if>
+		<if test="doctorInfo!=null">,doctorInfo=#{doctorInfo}</if>
+		<if test="other!=null">,other=#{other}</if>
+		<if test="emplore!=null">,emplore=#{emplore}</if>
+		where id = #{id}
+	</update>
+	
+	
+	
+	
+	<!-- 通过userID获取这个user的简历（全部信息） -->
+	<select id="getUseDetailrById" parameterType="string" resultType="user">
+		select * from t_user where id=#{id} order by id 
+	</select>
+	
+	<!-- 获取所有用户 -->
+	<select id="findAll" resultType="user">
+		select * from t_user
+	</select>
+	
+	<!-- 获取用户总数 -->
+	<select id="getTotalRecord" resultType="int">
+		select count(id) from t_user
+	</select>
+	
+	
+	
+	<!--  -->
+	<resultMap type="user" id="userRoleMap">
+		<result column="roleId" property="role.id"/>
+		<result column="roleName" property="role.name"/>
+		<result column="description" property="role.description"/>
+	</resultMap>
+	<!-- 分页查询用户 -->
+	<select id="findByMap" resultMap="userRoleMap" parameterType="map">
+		select u.*,r.id roleId,r.name roleName,r.description description from t_user u
+		left join t_user_role ur on ur.userId = u.id
+		left join t_role r on r.id = ur.roleId
+		
+		<if test="startIndex!=null and  pageSize !=null">
+			limit #{startIndex},#{pageSize} 
+		</if>
+	</select>
+	
+	<!-- 后台更新用户基本信息-->
+	<update id="updateUserBaseInfo" parameterType="user_Role">
+		update t_user set nickname = #{nickname} ,truename=#{truename},password=#{password},phone=#{phone}
+		where id =#{id}
+	</update>
+	
+	
+	<!-- 根据roleId 或truename来查询总记录数 -->
+	<select id="getTotalRecordByRoleVo" parameterType="userRole2" resultMap="userRoleMap">
+	select u.*,r.id roleId,r.name roleName,r.description description from t_user u
+			left join t_user_role ur  on ur.userId = u.id
+			left join t_role r on r.id = ur.roleId
+		<where>
+			<if test="roleId !=null and roleId!= -1 ">
+				ur.roleId = #{roleId} 
+			</if>
+			<if test="truename!=null and truename !='' ">
+					and u.truename like '%${truename}%'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 后台管理员 存储一个用户 -->
+	<insert id="saveInfoByAdmin" parameterType="user">
+	<selectKey keyProperty="id" order="BEFORE" resultType="string">
+			select uuid()
+		</selectKey>
+		insert into t_user(id,nickname,truename,email,password,phone)values(#{id},#{nickname},#{truename},#{email},#{password},#{phone})
+	</insert>
+	
+
+	<!-- 根据id删除一条记录 -->
+	<delete id="deleteById" parameterType="string">
+		delete from t_user where id =#{id}
+	</delete>
+
+
+
+</mapper>

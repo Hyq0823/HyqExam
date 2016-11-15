@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyq.mapper.PrivilegeMapper">
+
+	<!-- 查找顶级权限 -->
+	<select id="findTopPrivilege" resultType="privilege">
+		select id,name,url,parentId from t_privilege where parentId is null
+	</select>
+	
+	<!-- 查找一个权限的第一级子权限 -->
+	<select id="finChildPrivilegeList" parameterType="int" resultType="privilege">
+		select id,name,url,parentId from t_privilege where parentId = #{parentId}
+	</select>
+	
+	
+	<!-- 为一个角色分配权限 -->
+	<insert id="assistPrivilege4Role" parameterType="role_Privilege">
+		insert into t_role_privilege(roleId,privilegeId) values (#{roleId},#{privilegeId})
+	</insert>
+	
+	<!-- 查询一个角色已经分配的权限 -->
+	<resultMap type="privilege" id="pMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="url" property="url"/>
+		<result column="parentId" property="parentId"/>
+		
+	</resultMap>
+	<select id="findPrivilegeListByRoleId" resultMap="pMap" parameterType="int">
+		select p.id id, p.name name,p.url url,p.parentId parentId 
+		from t_privilege p LEFT JOIN t_role_privilege rp on p.id = rp.privilegeId where rp.roleId = #{roleId}
+	</select>
+	
+	<!-- 根据角色id 删除这个角色下的所有权限 -->
+	<delete id="deleteAllByRoleId" parameterType="int">
+		delete from t_role_privilege where roleId = #{roleId}
+	</delete>
+	
+	<!-- 获取所有的权限url -->
+	<select id="getAllUrl" resultType="string">
+		select url from t_privilege where url is not null
+	</select>
+	
+	
+	<!-- 根据一个用户的id获取它的所有权限 -->
+	<select id="getUsersPrivilegeUrlByUserId" resultType="string">
+		select p.url from t_privilege p 
+	left join t_role_privilege rp on p.id = rp.privilegeId
+	left join t_user_role ur on ur.roleId = rp.roleId
+	where ur.userId = #{userId} and p.url is not null
+	</select>
+
+
+</mapper>

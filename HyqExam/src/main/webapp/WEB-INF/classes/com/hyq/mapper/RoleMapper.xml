@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyq.mapper.RoleMapper">
+
+		<!-- 获取角色的总记录数 -->
+	<select id="getTotalRecord" resultType="int">
+		select count(*) from t_role
+	</select>
+	
+	
+	<!-- 分页查询角色 -->
+	<select id="findByMap" resultType="role" parameterType="map">
+		select * from t_role
+		order by id asc
+		<if test="startIndex!=null and  pageSize !=null">
+			limit #{startIndex},#{pageSize} 
+		</if>
+	</select>
+	
+	
+	<!-- 添加角色 -->
+	<insert id="addRole" parameterType="role" useGeneratedKeys="true" keyProperty="id">
+		insert into t_role(name,description)values(#{name},#{description})
+	</insert>
+	
+	
+	<!-- 根据id删除一条角色 -->
+	<delete id="deleteById" parameterType="int">
+		delete from t_role where id = #{id}
+	</delete>
+	
+	
+	<!-- 更新公告 -->
+	<update id="updateRole" parameterType="role" useGeneratedKeys="true" keyProperty="id">
+		update t_role set 
+		name=#{name},description=#{description}
+		where id = #{id}
+	</update>
+	
+	<!-- 在user_role 中添加一条记录 -->
+	<insert id="setUserRole" parameterType="user_Role">
+	insert into t_user_role(userId,roleId) values(#{id},#{roleId}) 
+	</insert>
+	
+	
+	<!-- 更新角色 -->
+	<update id="updateUserRole" parameterType="user_Role">
+		update t_user_role set roleId = #{roleId} where userId = #{id}
+	</update>
+	
+	<!-- 查找已经分配了的角色  可能有重复，要去重复-->
+	<select id="findExistRoleList" resultType="role">
+		select DISTINCT roleId id,name,description from t_role r
+		left join t_user_role ur on ur.roleId = r.id
+	</select>
+	
+	<!-- 获取所有的管理员列表 -->
+	<select id="getAllAdminList" resultType="user">
+		select * from t_user u
+		left join t_user_role ur on ur.userId = u.id
+		where ur.roleId = 7  
+	</select>
+	
+	
+	
+
+
+</mapper>

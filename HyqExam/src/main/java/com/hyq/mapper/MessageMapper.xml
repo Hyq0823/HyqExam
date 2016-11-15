@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyq.mapper.MessageMapper">
+
+	<!-- 插入一条消息 -->
+	<insert id="saveMessage" parameterType="message">
+		insert into t_message(sender,accepter,content,sendTime,isGet) values(#{sender.id},#{accepter.id},#{content},#{sendTime},#{isGet})
+	</insert>
+
+<!-- 获取一条消息 -->
+<resultMap type="messageVo3" id="messageMap">
+	<result column="senderId" property="sendId"/>
+	<result column="accepterId" property="accepterId"/>
+	<result column="senderName" property="sendName"/>
+	<result column="accepterName" property="accepterName"/>
+	<result column="content" property="content" />
+	<result column="sendTime" property="sendTime"/>
+</resultMap>
+
+<select id="getMyMessageByIdAndNotGet" resultMap="messageMap" parameterType="string">
+	select msg.sender senderId,msg.accepter accepterId,msg.content content,msg.sendTime sendTime,se.nickname senderName,
+	ac.nickname accepterName
+	  from t_message msg 
+	left join t_user se on se.id = msg.sender
+	left join t_user ac on ac.id = msg.accepter
+	 where accepter = #{a} and isGet = 0
+</select>
+
+<!-- 设置消息的获取状态为 已获取 -->
+<update id="setIsGotStatus">
+	update t_message  set isGet = 1 where accepter = #{accepter}
+</update>
+
+<!-- 获取一个用户的消息数量 -->
+<select id="getMyMessageTotalCount" resultType="int" parameterType="string">
+	select count(*) from t_message where accepter = #{v} and isGet = 0
+</select>
+
+
+<!-- 获取一个用户的消息 -->
+<select id="getMyMessage" resultMap="messageMap" parameterType="string">
+	select * from t_message where accepter = #{v} and isGet = 0
+</select>
+
+<!-- 获取已读的所有消息 -->
+<select id="getMessageByIdAndIsGot" resultType="message" parameterType="string">
+	select * from t_message where accepter = #{msg} and isGet = 1
+</select>
+
+<!-- 获取一对一的已经读取消息列表 -->
+<select id="getOne2OneMsg" resultType="messageVO2" parameterType="messageVO">
+	select sendTime,content from t_message where accepter = #{me} and sender=#{you} and isGet = 1
+</select>
+
+
+</mapper>

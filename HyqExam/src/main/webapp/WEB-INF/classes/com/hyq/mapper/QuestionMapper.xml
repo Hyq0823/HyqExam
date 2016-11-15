@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyq.mapper.QuestionMapper">
+
+	<select id="findAllQuestionTypes" resultType="questionType">
+	select id,name from t_question_type
+	</select>
+	
+	<!-- 存储一道单项选择题 -->
+	<insert id="saveSingleChoice" parameterType="singleChoiceQuestion">
+		insert into t_singlechoice(title,typeId,itemA,itemB,trueItem,level
+		<if test="lastItem!=null and lastItem!=''">,lastItem</if>
+		<if test="point!=null and point!=''">,point</if>
+		<if test="answerAnalysis!=null and answerAnalysis!=''">,answerAnalysis</if>
+		)values(#{title},#{typeId},#{itemA},#{itemB},#{trueItem},#{level}
+			<if test="lastItem!=null and lastItem!=''">,#{lastItem}</if>
+			<if test="point!=null and point!=''">,#{point}</if>
+			<if test="answerAnalysis!=null and answerAnalysis!=''">,#{answerAnalysis}</if>
+		)
+	</insert>
+	
+	<!-- 存储一道判断题 -->
+		<insert id="saveJudgeQuestion" parameterType="judgeQuestion">
+		insert into t_judge(title,typeId,level,answer
+		<if test="point!=null and point!=''">,point</if>
+		<if test="answerAnalysis!=null and answerAnalysis!=''">,answerAnalysis</if>
+		)values(#{title},#{typeId},#{level},#{answer}
+			<if test="point!=null and point!=''">,#{point}</if>
+			<if test="answerAnalysis!=null and answerAnalysis!=''">,#{answerAnalysis}</if>
+		)
+	</insert>
+	<!-- 存储一道判断题end -->
+	
+	<!-- 存储一道问答题-->
+		<insert id="saveWdQuestion" parameterType="wdQuestion">
+		insert into t_wd(title,typeId,level
+		<if test="point!=null and point!=''">,point</if>
+		<if test="answerAnalysis!=null and answerAnalysis!=''">,answerAnalysis</if>
+		)values(#{title},#{typeId},#{level}
+			<if test="point!=null and point!=''">,#{point}</if>
+			<if test="answerAnalysis!=null and answerAnalysis!=''">,#{answerAnalysis}</if>
+		)
+	</insert>
+	
+	<!-- 添加多选题 -->
+		<insert id="saveMutiChoic" parameterType="mutiChoiceQuestion">
+		insert into t_mutiChoice(title,typeId,level,item,trueItem
+		<if test="point!=null and point!=''">,point</if>
+		<if test="answerAnalysis!=null and answerAnalysis!=''">,answerAnalysis</if>
+		)values(#{title},#{typeId},#{level},#{item},#{trueItem}
+			<if test="point!=null and point!=''">,#{point}</if>
+			<if test="answerAnalysis!=null and answerAnalysis!=''">,#{answerAnalysis}</if>
+		)
+	</insert>
+	
+	
+	
+	<!-- 添加一个顶级的知识点 -->
+	<insert id="saveTopKpoint" parameterType="knowLegePoint">
+		insert into t_point(text,description) values(#{text},#{description})
+	</insert>
+	
+	<!-- 添加一个二级的知识点 -->
+	<insert id="saveSimpleKpoint" parameterType="knowLegePoint">
+		insert into t_point(text,description,parentId) values(#{text},#{description},#{parentId})
+	</insert>
+	
+	<!-- 获取顶层知识点 -->
+	<select id="getTopList" resultType="knowLegePoint">
+		select id,text,description from t_point where parentId is null
+	</select>
+	
+	<!-- 根据topid获取孩子知识点 -->
+	<select id="getChildsByTopId" parameterType="int" resultType="knowLegePoint">
+		select id,text,description,parentId from t_point where parentId=#{id}
+	</select>
+	
+	<!-- 更新一个知识点 -->
+	<update id="editKpointById" parameterType="knowLegePoint">
+		update t_point set text =#{text},description=#{description} where id = #{id}
+	</update>
+	
+	<!-- 删除一个知识点 -->
+	<delete id="deleteKpointById" parameterType="int">
+	delete from t_point where id = #{id}
+	</delete>
+	
+	<!-- 获取顶层的知识点 -->
+	<select id="getTopKpoint" resultType="knowLegePoint">
+		select id,text,description from t_point where parentId is null
+	</select>
+	
+	
+	<!-- 获取所有题目 封装到BaseQuestion中 -->
+	<select id="getAllBaseQuestions" resultType="baseQuestion">
+		select id,title,typeId,level,point,answerAnalysis from t_singlechoice
+		union
+		select id,title,typeId,level,point,answerAnalysis from t_wd
+		union
+		select id,title,typeId,level,point,answerAnalysis from t_judge
+		union
+		select id,title,typeId,level,point,answerAnalysis from t_mutichoice
+	</select>
+	
+	<!-- 获取所有题目的数量 -->
+	<select id="getTotalRecord" resultType="int">
+		select (
+	(select count(1) from t_singlechoice
+		<where>
+			<if test="level!=null">level = #{level}</if>
+			<if test="point!=null"> and point like '%${point}%'</if>
+		</where>
+	) 
+		
+	
+	+(select count(1) from t_judge
+			<where>
+			<if test="level!=null">level = #{level}</if>
+			<if test="point!=null">and point like '%${point}%'</if>
+		</where>
+	)
+ 	+(select count(1) from t_wd
+ 			<where>
+			<if test="level!=null">level = #{level}</if>
+			<if test="point!=null">and point like '%${point}%'</if>
+		</where>
+ 	)
+	+(select count(1) from t_mutichoice
+			<where>
+			<if test="level!=null">level = #{level}</if>
+			<if test="point!=null">and point like '%${point}%'</if>
+		</where>
+		)
+	) as total
+	</select>
+	
+	<!-- 分页查询所有题目 未完善 -->
+	<select id="findByMap" parameterType="map" resultType="baseQuestion">
+	<choose>
+	<when test="typeId==null">
+	 select id,title,typeId,level,point,answerAnalysis from 
+	(select id,title,typeId,level,point,answerAnalysis from t_singlechoice as a
+		union
+		select id,title,typeId,level,point,answerAnalysis from t_wd as b
+		union
+		select id,title,typeId,level,point,answerAnalysis from t_judge as c
+		union
+		select id,title,typeId,level,point,answerAnalysis from t_mutichoice as d) as e
+		<where>
+			<if test="level!=null">
+			 e.level = #{level}
+			</if>
+			<if test="point!=null">
+				and e.point like '%${point}%'
+			</if>
+		</where>
+		limit #{startIndex},#{pageSize}
+		</when>
+		<otherwise>
+			<!-- 单表操作 -->
+			select id,title,typeId,level,point,answerAnalysis from
+			<if test="typeId == 1">t_singlechoice</if> 
+			<if test="typeId==2">t_judge</if>
+			<if test="typeId==3">t_wd</if>
+			<if test="typeId==4">t_mutichoice</if>
+			<where>
+				<if test="level !=null">level = #{level}</if>
+				<if test="point !=null">and point like '%${point}%'</if>
+			</where>
+			limit #{startIndex},#{pageSize}
+		</otherwise>
+	</choose>
+	</select>
+	
+	
+	
+	<!-- 根据id和typeId删除一条记录   根据typeId决定操作哪一张表 -->
+	<delete id="deleteQuestiosByIdAndTypeId" parameterType="questionVo">
+		delete from
+		<choose>
+			<when test="typeId == 1">t_singlechoice</when>
+			<when test="typeId==2">t_judge</when>
+			<when test="typeId==3">t_wd</when>
+			<otherwise>t_mutichoice</otherwise>
+		</choose>
+		 where id =#{id}
+	</delete>	
+	
+	<!--根据typeID获取一个单表的记录条数 -->
+	<select id="getSingleTableRecord" parameterType="questionLikeVo" resultType="int">
+		select count(1) from
+		<choose>
+			<when test="typeId == 1">t_singlechoice</when>
+			<when test="typeId==2">t_judge</when>
+			<when test="typeId==3">t_wd</when>
+			<otherwise>t_mutichoice</otherwise>
+		</choose>
+		<where>
+			<if test="typeId!=null"> typeId = #{typeId}</if>
+			<if test="level!=null">and level=#{level}</if>
+			<if test="point!=null">and point like '%${point}%'</if>
+		</where>
+		
+	</select>
+
+
+</mapper>

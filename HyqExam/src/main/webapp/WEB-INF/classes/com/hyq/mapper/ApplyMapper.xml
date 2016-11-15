@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hyq.mapper.ApplyMapper">
+
+	<!-- 添加报名信息 -->
+	<insert id="insertApplyInfo" parameterType="applyInfo">
+		insert into
+		t_applyInfo(title,description,startTime,status,endTime,parentId,isHandConfirm)
+		values
+		(#{title},#{description},#{startTime},#{status},#{endTime},#{parentId},#{isHandConfirm})
+	</insert>
+
+	<!-- 查询所有报名信息 -->
+	<select id="getAllApplyInfo" parameterType="applyInfo"
+		resultType="applyInfo">
+		select * from t_applyInfo
+	</select>
+
+	<!-- 根据id查询报名详细信息 -->
+	<select id="getApplyById" parameterType="int" resultType="applyInfo">
+		select
+		* from t_applyInfo where id = #{id}
+	</select>
+
+	<!-- 插入考生数据到报名表中 -->
+	<insert id="insertApply" parameterType="apply">
+		insert into
+		t_apply(applyInfoId,userId,applyStatus)
+		values(#{applyInfoId},#{userId},#{applyStatus})
+	</insert>
+
+	<!-- 判断是否已经报过名了 -->
+	<select id="isApplyed" parameterType="applyVO" resultType="int">
+		select id from t_apply where userId = #{userId} and
+		applyInfoId=#{applyInfoId}
+	</select>
+
+	<!-- 修改报名信息 -->
+	<update id="updateInfo" parameterType="applyInfo">
+		update t_applyInfo set
+		title=#{title},description=#{description} ,
+		startTime=#{startTime},status=#{status},endTime=#{endTime},
+		parentId=#{parentId},isHandConfirm=#{isHandConfirm} where id=#{id}
+	</update>
+
+	<!-- 根据id删除一条记录 -->
+	<delete id="deleteById" parameterType="int">
+		delete from t_applyInfo
+		where id = #{id}
+	</delete>
+
+
+	<!-- 查询三个表的resultMap -->
+	<resultMap type="ensureVo" id="ensureVoMap">
+	
+		<!-- apply的信息 -->
+		<result column="status" property="apply.applyStatus"/>
+		<result column="applyId" property="apply.id"/>
+		
+		<!-- applyInfo的信息 -->
+		<result column="infoId" property="applyInfo.id"/>
+		<result column="titile" property="applyInfo.title"/>
+		<result column="description" property="applyInfo.description"/>
+		<result column="start" property="applyInfo.startTime"/>
+		<result column="end" property="applyInfo.endTime"/>
+		
+		<!-- user的信息 -->
+		<result column="uid" property="user.id"/>
+		<result column="nick" property="user.nickname"/>
+		<result column="tel" property="user.phone"/>
+		<result column="email" property="user.email"/>
+		<result column="name" property="user.truename"/>
+		
+	</resultMap>
+
+	<!-- 要查询三个表的信息-->
+	<select id="getTreeTableInfo" parameterType="int"  resultMap="ensureVoMap">
+		Select apply.applyStatus status,apply.id applyId,u.id uid,u.nickname nick,u.phone tel,u.email email,truename name,
+		info.title titile,info.description description,info.id infoId,info.startTime start,info.endTime end
+		
+		from t_apply as apply 
+		right join t_user u on apply.userId =u.id
+		right join t_applyInfo info on info.id = apply.applyInfoId 
+		where info.id = #{id} and apply.applyStatus = '待审核'
+	</select>
+	
+	<!-- 考生通过审核 -->
+	<update id="modifyApplyPass" parameterType="int">
+		update t_apply set applyStatus = '已通过' where id = #{id}
+	</update>
+	
+	<!-- 考生未通过审核 -->
+	<update id="modifyApplyFail" parameterType="int">
+		update t_apply set applyStatus = '未通过' where id = #{id}
+	</update>
+	
+	<!-- 在t_apply中查询同一个报名批次(同infoID) 当前用户（userID） 的下一个userID（） -->
+	<select id="findAfterOne" resultType="string" parameterType="resumeVo">
+		select t3.userId from 
+	(select *from t_apply t1 where t1.applyInfoId = #{infoId} order by t1.id asc) t3  
+ 	where t3.id >(select id from t_apply t2 where
+t2.userId=#{userId} and t2.applyInfoId = #{infoId} order by t2.id)order by t3.id asc  LIMIT 0,1
+	</select>
+	
+	<!-- 在t_apply中查询同一个报名批次(同infoID) 当前用户（userID） 的上一个userID（） -->
+	<select id="findBeforeOne" resultType="string" parameterType="resumeVo">
+		select t3.userId from 
+	(select *from t_apply t1 where t1.applyInfoId = #{infoId} order by t1.id asc) t3  
+ 		where  t3.id <![CDATA[<]]> (select id from t_apply t2 where
+t2.userId=#{userId} and t2.applyInfoId = #{infoId} order by t2.id) order by t3.id asc  LIMIT 0,1
+	</select>
+	
+	<!-- 查找顶层的报名信息 -->
+	<select id="getTopApplyList" resultType="applyInfo">
+		select id,title,description,startTime,status,endTime,parentId,isHandConfirm
+		from t_applyInfo where parentId = -1
+	</select>
+	
+	<!-- 根据parentId获取所有的子报名信息 -->
+	<select id="getChildrenByParentId" resultType="applyInfo" parameterType="int">
+		select id,title,description,startTime,status,endTime,parentId,isHandConfirm
+		from t_applyInfo where parentId = #{id}
+	</select>
+
+</mapper>
