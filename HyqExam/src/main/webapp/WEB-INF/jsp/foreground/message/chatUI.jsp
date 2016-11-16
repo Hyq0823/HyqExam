@@ -5,6 +5,8 @@
 <html>
   <head>
     <jsp:include page="/common/bootstrapLink.jsp"></jsp:include>
+     <script type="text/javascript" src="${pageContext.request.contextPath }/js/message/message.js"></script>
+     <link rel="stylesheet" href="${pageContext.request.contextPath }/css/message/message.css" />
     <title>聊天界面</title>
     	<style type="text/css">
 			#online_left {
@@ -54,7 +56,6 @@
 			type:"post",
 			data:"me=${currentUser.id}&you="+id,
 			success:function(data){
-			
 				$("#right_chatArea").text("");
 				var list = eval( "("  +data+  ")" );
 				for(var i =0;i<list.length;i++){
@@ -86,7 +87,7 @@
 		//未取到adminId这个字段属性值
 		//msg=2&sendId=eec83f77-1e68-11e6-bacc-5cf9dd5e9d93&adminId=
 		//如何在一个div中换行。
-		$("#right_chatArea").append("\r\n"+"您说:"+msg);
+		$("#right_chatArea").append("\r\n"+"您说:"+msg+"\r\n");
 		$("#txtArea").val("");
 		$.ajax({
 			url:"${pageContext.request.contextPath}/message/sendMsgToAdmin.action",
@@ -118,7 +119,7 @@
 				var list = eval( "("  +data+  ")" );
 				for(var i =0;i<list.length;i++){
 					if(list[i].content!="无"){
-						$("#right_chatArea").append("["+list[i].sendName+"]说： <p>"+list[i].content+"</p>");
+						$("#right_chatArea").append("\r\n["+list[i].sendName+"]说： <p>"+list[i].content+"</p>\r\n");
 						}
 				}
 			}
@@ -189,7 +190,24 @@
                 <!--文本域-->
             
                 	<div id="right_chatArea">
-                		
+                		<div>
+                			
+                			<div class="face_container">
+                			 <div class="face_left">
+                			<a class="face_left">
+                				<img class="face_radius" height="30" width="30"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+                			 </div>
+                			</div>
+                			
+                			<div class="content_left">
+                				<p class="cotent_p">法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊</p>
+                			</div>
+                			
+                			
+                			</div>
+                			
+                		</div>
                 	</div>
            
                 <!--文本域end-->
@@ -199,9 +217,22 @@
   						<div class="form-group">
   					  	<label for="name">消息发送框</label>
    						 <textarea id="txtArea" class="form-control" rows="3" style="resize: none;"></textarea>
-   						 <span style="color: #C0C0C0;">按ENTER键发送消息</span>
-   						 <span style="padding-left: 416px;" class="input-group-btn" style="padding-bottom: 4px;"> 
-   						 <button onclick="sendTo();"  type="button" style="width: 110px;" class="btn btn-primary" data-toggle="button">发送</button>
+   						 <span id="sendTip" style="color: #C0C0C0;">按Ctrl+ENTER键发送消息</span>
+   						 <span class="input-group-btn" style="padding-bottom: 4px;"> 
+   						 
+   						 <div class="btn-group" id="btns_send">
+	   						 <button onclick="sendTo();"  type="button"  class="btn btn-primary" data-toggle="button">发送</button>
+	   						 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></span><span class="caret"></span> ▽</button>
+	   						 <ul class="dropdown-menu">
+								<li><a href="javascript:changeSendWay('1')"> <span id="span_e" class="glyphicon glyphicon-ok"></span> 按ENTER键发送消息</a></li>
+								<li><a href="javascript:changeSendWay('2')"><span id="span_ce" class="glyphicon glyphicon-ok"></span>   按Ctrl + ENTER键发送消息</a></li>
+							</ul>
+   						 
+   						 </div>
+   						 
+   						 
+   						 
+   						 
    						 </span>
  					 </div>
 					</form>
@@ -221,7 +252,6 @@
 		
 		<div class="col-md-2"></div>
 		</div>
-  
   
   
   </body>
