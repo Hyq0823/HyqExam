@@ -8,33 +8,6 @@
      <script type="text/javascript" src="${pageContext.request.contextPath }/js/message/message.js"></script>
      <link rel="stylesheet" href="${pageContext.request.contextPath }/css/message/message.css" />
     <title>聊天界面</title>
-    	<style type="text/css">
-			#online_left {
-				width: 300px;
-				height: 500px;
-				border: 1px solid greenyellow;
-				background:#dff0d8;
-			}
-			
-			#userInfo {
-				border: 1px solid #cfcfcf;
-			}
-			
-			#right_messageInfo{
-			margin-left: 5px;
-			width:534px;
-			height: 500px;
-			border:1px solid #C3C3C3;
-			
-			}
-			#right_chatArea{
-			overflow:auto;
-			height:242px;
-			border-bottom: 1px solid #cfcfcf;
-			border-top: 1px solid #CFCFCF;
-			}
-		</style>
-		
 <script type="text/javascript">
 	var adminId ;
 	//开始进行对话
@@ -132,12 +105,12 @@
   
   <body>
   <jsp:include page="/common/indexHead.jsp"></jsp:include>
-  	<div style="height: 10px;"></div>
+  	<div style="height: 20px;"></div>
   
   		<div style="height: 50px;"></div>
 <div class="row">
-	<div class="col-md-2"></div>
-	<div class="col-md-8">
+	<div class="col-md-1"></div>
+	<div class="col-md-10">
 	<div id="userInfo">
 		<div class="panel panel-success">
 			<div class="panel-heading">
@@ -161,7 +134,7 @@
 								<!--我的好友 内容 -->
 							<div class="tab-content">
 								<div class="tab-pane fade in active" id="online_list_recent">
-									<p><a id="${friend.id }" onclick="startChat('${friend.truename}','${friend.id }')" href="javascript:void(0);">${friend.truename }</span></a><span class="pull-right">在线</span></p>
+									<p><a id="${friend.id }" onclick="startChat('${friend.truename}','${friend.id }')" href="javascript:void(0);">${friend.truename }</a><span class="pull-right">在线</span></p>
 								</div>
 								<!--最近联系人内容  end-->
 
@@ -181,38 +154,58 @@
 				<!--左边的树形结构end-->
 				
 				<!--右边聊天界面-->
-				<div>
-				<div id="right_messageInfo" style="float:left">
+				<div id="right_messageInfo">
 						<!--提示-->
                 	<div class="alert alert-success">正在与<strong id="accepterName" style="color: red;">大彪子</strong>对话中</div>
                 <!--提示end-->
                 
                 <!--文本域-->
-            
                 	<div id="right_chatArea">
-                		<div>
-                			
+                		<!-- 左边聊天气泡 -->
+                		<div class="clearfix msg">
                 			<div class="face_container">
                 			 <div class="face_left">
                 			<a class="face_left">
-                				<img class="face_radius" height="30" width="30"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tb2.bdstatic.com/tb/editor/images/face/i_f25.png?t=20140803">
                 			</a>
                 			 </div>
                 			</div>
-                			
-                			<div class="content_left">
-                				<p class="cotent_p">法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊法撒旦飞洒发斯蒂芬阿斯蒂芬阿斯蒂芬啊</p>
+                			<div class="content_left_container">
+                			   <div class="content_arrow"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">我是滑稽hah滑稽h滑稽h滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h </p>
+	                			</div>
                 			</div>
-                			
-                			
+                				<span class="time time_left">2016-11-17 11:24:15</span>
                 			</div>
+                			<!-- 左边聊天气泡 end -->
                 			
+                			
+                		<!-- 右边聊天气泡 -->
+                		<div class="clearfix">
+                			<div class="face_container">
+                			 <div class="face_right">
+                			<a class="face_right">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+                			 </div>
+                			</div>
+                			<div class="content_right_container">
+                			<div class="content_arrow_right"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">很厉害很厉害很厉害很厉害</p>
+	                			</div>
+                			</div>
+                			<span class="time time_right">2016-11-17 11:24:15</span>
+                			</div>
+                			<!-- 右边聊天气泡 end-->
                 		</div>
                 	</div>
-           
                 <!--文本域end-->
-                
-                <!--发送框-->
+				<!--右边聊天界面end-->
+              
+              
+              	<div>
                     <form role="form">
   						<div class="form-group">
   					  	<label for="name">消息发送框</label>
@@ -227,32 +220,23 @@
 								<li><a href="javascript:changeSendWay('1')"> <span id="span_e" class="glyphicon glyphicon-ok"></span> 按ENTER键发送消息</a></li>
 								<li><a href="javascript:changeSendWay('2')"><span id="span_ce" class="glyphicon glyphicon-ok"></span>   按Ctrl + ENTER键发送消息</a></li>
 							</ul>
-   						 
-   						 </div>
-   						 
-   						 
-   						 
-   						 
-   						 </span>
+							</div>
  					 </div>
 					</form>
+              
+              
+              
+              
+              
+              
 				</div>
-				<!--右边聊天界面end-->
 				<div style="clear: both;"></div>
 				</div>
 			
 		</div><!--面板结尾-->
-		
-			
-			
 		</div>
 		</div>
-		</div>
-		
-		
-		<div class="col-md-2"></div>
-		</div>
-  
+		<div class="col-md-1"></div>
   
   </body>
 </html>

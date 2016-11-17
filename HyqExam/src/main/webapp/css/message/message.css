@@ -1,0 +1,142 @@
+
+body{color: #b0bdd0;}
+
+#online_left {
+	width: 23%;
+	height: 500px;
+	border: 1px solid greenyellow;
+	background:#dff0d8;
+}
+#userInfo {
+	border: 1px solid #cfcfcf;
+}
+
+#right_messageInfo{
+	margin-left: 5px;
+	height: 500px;
+	border:1px solid #C3C3C3;
+}
+#right_chatArea{
+	overflow:auto;
+	height:427px;
+	border-top: 1px solid #CFCFCF;
+}
+
+
+
+/*聊天头像框	*/
+.face_container{
+	width:100%;
+}
+.face_left{
+	width:50px;
+	height:50px;
+	display:block;
+	float: left;
+}
+
+.face_right{
+	width:50px;
+	height:50px;
+	display:block;
+	float: right;
+}
+
+
+.face_radius{
+	border-radius:50%;
+}
+
+
+/*文本框*/
+.content_left_container{
+	margin-left:13px;
+	float:left;
+	display:inline;
+	max-width: 400px;
+	background: #e6e6e6;
+	border-radius: 5px;
+	
+}
+
+.content_right_container{
+	margin-right:13px;
+	float:right;
+	display:inline;
+	max-width: 400px;
+	background: #d7ebfe;
+	border-radius: 5px;
+}
+
+.content_left{
+	line-height: normal;
+}
+
+/*聊天三角*/
+.content_arrow{
+	border-width:8px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-color: transparent #e6e6e6 transparent transparent;
+	position: relative;
+	left: -14px;
+	top: 3px;
+	float: left;
+}
+
+.content_arrow_right{
+	border-width: 8px;
+	height: 0px;
+	width: 0px;
+	border-style: solid;
+	border-color: transparent transparent transparent #d7ebfe;
+	position: relative;
+	right: -14px;
+	top: 3px;
+	float: right;
+}
+
+.cotent_p{
+	word-wrap: break-word;  
+	color: #333;
+	font-size: 14px;
+	min-height: 20px;
+	min-width: 40px;
+	text-align: left;
+	padding:8px 3px 3px 8px;
+}
+.msg{
+	padding: 20px 16px 0;
+}
+
+.time{
+	display: inline;
+	color: #ccc;
+	height: 25px;
+	line-height: 25px;
+	clear: both;
+	text-align: center;
+	width: 150px;
+}
+
+.time_right{
+	float: right;
+	margin-right: 53px;
+}
+
+.time_left{
+	float:left;
+	margin-left: 53px;
+	
+}
+.clearfix{
+	
+}
+.clearfix:AFTER {
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+}
