@@ -16,6 +16,10 @@ function changeSendWay(id){
 }
 
 $(document).ready(function(){
+	//隐藏错误提示
+	$("#msg_alert").hide(); 
+	
+	
 	$("#span_e").removeClass("glyphicon glyphicon-ok");
 	$("#txtArea").keydown(function(e){
 		if(sendFlag){
