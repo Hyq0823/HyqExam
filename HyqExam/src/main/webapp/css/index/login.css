@@ -67,12 +67,8 @@ body{
 #btn_login{
 }
 
-#div_error{
+.error_tips{
 	width: 70%;
 	height: 20px;
 	color: red;
-	float: left;
-	margin-left:30%;
-    font-size: 28px;
-    line-height: 60px;
 }

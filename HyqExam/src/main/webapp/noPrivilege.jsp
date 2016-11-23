@@ -7,6 +7,6 @@
   </head>
   
   <body>
-   sorry,您没有权限访问本页面!
+   sorry,您没有权限访问本页面! 错误: ${message }
   </body>
 </html>

@@ -4,6 +4,12 @@
 	<node>/foreground/main</node>
 	<node>/loginUI</node>
 	<node>/login</node>
+	<node>/registerUI</node>
+	<node>/register</node>
+	<node>/weixin/auth</node>
+	
+	<!-- 微信接口回调 -->
+	<node>/weixin/callback</node>
 	
 	<!-- 后台管理员登录 -->
 	<node>/background/loginRequest</node>

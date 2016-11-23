@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.hyq</groupId>
   <artifactId>HyqExam</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1</version>
   <packaging>war</packaging>
   <name>ab</name>
   <description>b</description>
@@ -150,25 +150,59 @@
 		    <version>2.1</version>
 		    <scope>provided</scope>
 		</dependency>
-        
 
   	
   	
   </dependencies>
- 
-  
   
   <build>
+  <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            
+            
+              <resource>
+                <directory>src/main/recources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+  
+   <finalName>HyqExam</finalName>
 	<pluginManagement>
 		<plugins>
+		
+		
+		
 		 <plugin>  
             <groupId>org.apache.maven.plugins</groupId>  
             <artifactId>maven-compiler-plugin</artifactId>  
             <configuration>  
-                <source>1.6</source>  
-                <target>1.6</target>  
+                <source>1.7</source>  
+                <target>1.7</target>  
             </configuration>  
         </plugin>  
+        
+        <!-- war 打包插件, 设定war包名称不带版本号 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<warName>HyqExam</warName>
+				<webResources>
+					 <resource>
+                  	<directory>src/main/resources</directory>
+                  	<targetPath>WEB-INF/classes</targetPath>
+             		 </resource>
+				</webResources>
+				</configuration>
+			</plugin>
 		</plugins>
 	</pluginManagement>
 	</build>

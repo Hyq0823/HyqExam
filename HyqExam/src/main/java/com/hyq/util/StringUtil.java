@@ -16,5 +16,17 @@ public class StringUtil {
 			return false;
 		}
 	}
+	
+	
+	public static boolean isNotEmpty(String str)
+	{
+		if(str!=null && !"".equals(str))
+		{
+			return true;
+		}else
+		{
+			return false;
+		}
+	}
 
 }

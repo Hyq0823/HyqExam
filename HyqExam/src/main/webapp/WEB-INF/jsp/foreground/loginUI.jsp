@@ -6,11 +6,12 @@
 <head>
 <title>用户登录</title>
 <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.min.js"></script>
-<link  rel="stylesheet" href="${pageContext.request.contextPath }/css/index/login.css">
-<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${fullpath }/js/jquery.min.js"></script>
+<script src="${fullpath }/js/bootstrap.min.js"></script>
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link  rel="stylesheet" href="${fullpath }/css/index/login.css">
+<script type="text/javascript" src="${fullpath }/js/login/login.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() { 
@@ -20,20 +21,6 @@
 			$("#weixinLogIn").hide();
 		}
 	});
-	function checkRegiste() {
-		var username = $("#username").val();
-		if (username == null || username == "") {
-			$("#error").html("用户名不能为空!");
-			return false;
-		}
-		var password = $("#password").val();
-		if (password == null || password == "") {
-			$("#error").html("密码不能为空!");
-			return false;
-		}
-		$("#form_sub").attr("disabled",true);
-		return true;
-	}
 </script>
 </head>
 <body>
@@ -55,19 +42,24 @@
 	   			      <label for="name">${error }</label>
 	  			   </div>
 					</c:if>
+					
+					<form id ="form_count" method="post" action="${fullpath }/login.action">
 					<div class="form-group">
 	    				<label for="name">用户名:</label>
-	   					 <input type="text" class="form-control" id="username" placeholder="请输入用户名" value="${user.nickname}">
+	   					 <input type="text" name="nickname" class="form-control" id="username" placeholder="请输入用户名" value="${user.nickname}">
 	  				</div>
 					<div class="form-group">
 	    				<label for="name">密码:</label>
-	   					 <input id="password" type="password" class="form-control" id="password" placeholder="请输入密码">
+	   					 <input id="password" type="password" name="password" class="form-control" id="password" placeholder="请输入密码">
 	  				</div>
 	  				
+	  				<div id="div_error_count" class="error_tips">${error }</div>
 	  				<div class="form-group">
-	  					<button type="button" class="btn btn-success">注册</button>
-			    		<button type="button" class="btn btn-primary">登录</button>
+	  					<button type="button" class="btn btn-success" onclick="javascript:location.href='${fullpath}/registerUI.action'">注册</button>
+			    		<button type="button" class="btn btn-primary" onclick="login('0')">登录</button>
 			    	</div>
+			    	
+			      </form>
 			</div>
 			
 			<div id="msgcode" class="tab-pane fade" >
@@ -78,24 +70,23 @@
 					
 					<div class="form-group">
 	    			 <div id="form" >
-						<form id="info_form" action="${ctx}/dz/afterLoginOrRegiste" method="post">
 		
-						<div class="div_box">
+						<div class="form-group">
 						<label for="name">手机号:</label>
-	   					 <input  id="input_telphone" type="text"  name="phone" class="form-control" id="username" maxlength="11" placeholder="请输入手机号" onkeyup="value=value.replace(/\D/g,'')" style="ime-mode:disabled;" />
+	   					  <input  id="input_telphone" type="text" autocomplete="off"  name="phone" class="form-control" id="username" maxlength="11" placeholder="请输入手机号" onkeyup="value=value.replace(/\D/g,'')" style="ime-mode:disabled;" />
 						</div>
 							<div>
-							<div class="div_box">
-								<input type="text" name="checkCode" class="form-control" id="input_code" maxlength="4"  placeholder="验证码" onkeyup="value=value.replace(/\D/g,'')" style="ime-mode:disabled;"/>
-								<button id="btn_code" class="btn btn-primary">发送验证码</button> 
+							<div class="form-group">
+ 								<input type="text" name="checkCode" class="form-control" id="input_code" maxlength="4"  placeholder="验证码" onkeyup="value=value.replace(/\D/g,'')" style="ime-mode:disabled;"/>
+								<button style="border: 1px solid #ccc;" id="btn_code" class="btn btn-primary">发送验证码</button> 
 							</div>
 							</div>
-							<div id="div_error"></div>
-							<div class="div_box" style="margin-top: 10%">
-								<button type="button" class="btn btn-primary" id="btn_login">登录</button>
+							<div id="div_error_msgcode" class="error_tips"></div>
+							<div class="form-group">
+	  							<button type="button" class="btn btn-success" onclick="javascript:location.href='${fullpath}/registerUI.action'">注册</button>
+								<button  type="button" class="btn btn-primary" id="btn_login" onclick="login('1')">登录</button>
 							</div> 
-		</form>
-	</div>
+		</div>
 	  				</div>
 			</div>	
 			
