@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>首页</title>
+  <script type="text/javascript" src="/HyqExam/js/jquery.min.js"></script>
+  <link href="/HyqExam/css/message/chat.css" type="text/css" rel="stylesheet" />
+
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		 if (window.Notification && window.Notification.permission !== "granted") {
+					window.Notification.requestPermission(function (status) {
+					  if (Notification.permission !== status) {
+						Notification.permission = status;
+					  }
+					});
+				  }
+
+
+		 var options={
+            dir: "ltr",
+            lang: "utf-8",
+            	icon:'https://www.google.com.hk/images/branding/product/ico/googleg_lodp.ico',
+            body: "您有新的回复消息，请注意查收！"
+        };
+		var Util ={
+			body:$("body"),
+			btn_toggle:$("#btn_toggle"),
+			left_nav:$("#left_nav"),
+			main:$("#main"),
+			switchbox:$("#cbox"),//桌面通知开关
+			contact:$(".contact"),//联系人
+			msg_btn:$("#msg_btn"),//发送按钮
+			msg_txt:$("#msg_txt"),//发送文本框
+			right_chatArea:$("#right_chatArea"),//右边聊天框
+			left_chatArea:$("#left_chat_hide")//左边聊天框
+		};
+
+
+		//绑定发送按钮事件
+		Util.msg_btn.click(function(){
+			if(Util.msg_txt.val() == ''){
+				return;
+			}
+			//appendRightArea("发送者");
+			appendLeftArea("左边这");
+			
+ 			
+		});
+
+		//TODO左边头像复制函数，左边头像动态问题，左边姓名动态问题，左边,监听空格发送。
+		function appendLeftArea(){
+			var reg = /\s/g; 
+			var msg = Util.msg_txt.val().replace(reg,'');
+			var left_chat_block= $(".left_chat_area:hidden").clone()
+			left_chat_block.find(".face_name").text("左边者");
+			left_chat_block.find(".cotent_p").text(msg);
+			left_chat_block.find("img").attr("src","http://stimg3.tuicool.com/fyAnyi.png");
+			left_chat_block.show();
+			Util.right_chatArea.append(left_chat_block);
+			Util.right_chatArea.scrollTop(Util.right_chatArea[0].scrollHeight);//设置滚动条位置
+			Util.msg_txt.val(""); //清空输入框。
+		}
+
+			
+
+	
+		//TODO 动态头像问题，关键字过滤问题，脚本过滤
+		function appendRightArea(){
+			var reg = /\s/g; 
+			var msg = Util.msg_txt.val().replace(reg,'');
+			var right_chat_block= $(".right_chat_area:hidden").clone()
+			right_chat_block.find(".face_name").text("右边者");
+			right_chat_block.find(".cotent_p").text(msg);
+			right_chat_block.find("img").attr("src","http://stimg3.tuicool.com/fyAnyi.png");
+			right_chat_block.show();
+			Util.right_chatArea.append(right_chat_block);
+			Util.right_chatArea.scrollTop(Util.right_chatArea[0].scrollHeight);//设置滚动条位置
+			Util.msg_txt.val(""); //清空输入框。
+			
+		}
+		
+		
+
+		//绑定按下ctrl+enter键位 发送消息
+		Util.msg_txt.keydown(function(e){
+			if(e.ctrlKey && e.keyCode==13){
+				if(Util.msg_txt.val() == ''){
+				return;
+			}
+			console.log("按下ctrl 和enter发送消息了");
+			appendRightArea();
+			}
+		});
+			
+
+		//绑定左边联系人单击事件
+		Util.contact.click(function(){
+			console.log("单击联系人");
+		});
+
+		
+		//绑定桌面通知事件
+		var box = document.getElementById('cbox');
+		Util.switchbox.click(function(){
+
+			if(Util.switchbox.is(":checked")){
+				console.log("点击开启桌面通知");
+				console.log(Notification.permission);
+				if(!("Notification" in window)){
+				    console.log('不支持通知！');
+			    }else if(Notification.permission =='granted'){
+					var notice = new Notification("hyq系统消息通知",options);
+				}else if(Notification.permission !== 'denied'){
+					Notification.requestPermission(function(permission){
+						if(permission == 'granted'){
+							var notice = new Notification('系统消息通知2',options);
+						}
+					});
+				}else{
+					console.log("??");
+				}
+			}else{
+				console.log("关闭桌面通知");
+			}
+		});
+
+	Util.btn_toggle.click(function(){
+		if(Util.left_nav.css("left") == "0px"){
+			move_hide_nav();
+		}else{
+			move_show_nav();
+		}
+	});
+	/*隐藏左侧导航*/
+	function move_hide_nav(){
+		Util.left_nav.css({"left":"-200px"});
+		Util.btn_toggle.css({"margin-left":"0px"});
+	}
+
+	/*显示左侧导航*/
+	function move_show_nav(){
+		$("#msg_count").hide();//隐藏消息总数
+		Util.left_nav.css({"left":"0px"});
+		Util.btn_toggle.css({"margin-left":"200px"});
+	
+	}
+
+	/*监听滑动事件*/
+	var startX = 10000;
+	document.addEventListener("touchstart",function(e){
+		startX = e.touches[0].pageX;
+	},false);
+
+	document.addEventListener("touchmove",function(e){
+		 var moveX = e.touches[0].pageX;
+		 if(moveX - startX > 80){//左滑动
+			move_show_nav();
+		 }else{//右滑动
+			move_hide_nav();
+		 }
+
+	},false);
+
+
+	
+	});
+</script>
+
+
+  <style type="text/css">
+
+  ul li{list-style-type:none;margin:0;padding:0}
+	#left_nav{
+		font-size:20px;
+		color:#fff;
+		left:-200px;
+		top:0;
+		z-index:1001;
+		width:200px;
+		/* -webkit-overflow-scrolling: touch; 容器高度超出父容器高度，子容器内容如何弹性滚动 */
+		height:100%;
+		position:absolute;
+		background:#C0C0C0;
+		transition:0.2s;
+	}
+	.nav_section_list{margin:0;padding:0}
+
+	/*触发左右滑块的按钮*/
+	#btn_toggle{
+		border:none;
+		position:relative;
+		outline:none;
+		width:42px;
+		height:30px;
+		background:url('/images/message/menu.png');
+		transition:0.2s;	
+	}
+
+/*桌面通知开关*/
+
+#switch{
+	position:fixed;
+	width:90px;
+	margin:0;
+	border:2px solid #999999;
+	height:30px;
+	overflow:hidden;
+	border-radius:20px;
+	display:inline-block;
+	line-height: 30px;
+	margin-left:20px;
+	
+	
+
+}
+
+.point{
+	height:40px;
+	border-radius:20px;
+	display:block;
+	position:absolute;
+	left:0;
+
+}
+
+
+.model{
+	display:block;
+	height:40px;
+	width:180px; /*开关左右各90px*/
+	position:absolute;
+	left:-90px;
+	transition:0.5s;
+	-webkit-transition:0.5s;
+}
+
+#cbox{
+display:none;
+
+}
+
+#cbox:checked + label{/*相邻兄弟选择器*/
+	/*球向右移动，整体向左边移动*/
+	left:0px;
+	
+}
+#cbox:checked + .model .circle{
+	left:66px;
+}
+
+.point:before{
+	font-size:20px;
+	content:attr(data-on);
+	color:#999999;
+	text-align:right;
+	padding:13px 59px 13px 11px;
+	line-height:40px;
+	background-color:#00e500;
+
+	
+}
+.point:after{
+	content:attr(data-off);
+	font-size:20px;
+	color:#999999;
+	text-align:right;
+	line-height:40px;
+	background-color:#EEEEEE;
+	padding:14px 10px 5px 65px;
+	
+}
+
+.circle{
+	width:22px;
+	height:22px;
+	border-radius:20px;
+	display:block;
+	position:absolute;
+	left:96px;
+	top:5px;
+	background-color:#FFFFFF;
+	transition:0.5s;
+	-webkit-transition:0.5s;
+	
+}
+/*桌面通知开关end*/
+
+/*侧边栏联系人*/
+.contact{
+	width:100%;
+	/*border:1px solid green; */
+	text-align:center;
+	margin:20px 0;
+	cursor:pointer;
+}
+.contact_left{
+	width:80%;
+	/*border:1px solid red;*/
+	display: inline-block;
+}
+.contact_left img{
+	display:inline-block;
+	width:50px;
+	height:50px;
+	vertical-align:middle;
+
+}
+ .contact_name{
+	display:inline-block;
+	vertical-align:middle;
+ }
+ .contact_msg_count{
+	display:inline-block;
+	vertical-align:middle;
+	min-width:26px;
+	max-width:50px;
+	max-height:50px;
+	min-height:26px;
+	background:#f30808;
+	border-radius:50%;
+
+	animation:myshadow 1s infinite;
+	-webkit-animation:myshadow 1s infinite; /*Safari and Chrome*/
+}
+
+@keyframes myshadow
+{
+ 0% {
+    box-shadow: 0 0 0 0.00em #c0392b;
+  }
+  25% {
+    box-shadow: 0 0 0 0.25em #c0392b;
+  }
+  50% {
+    box-shadow: 0 0 0 0.50em #c0392b;
+  }
+  75% {
+    box-shadow: 0 0 0 0.25em #c0392b;
+  }
+  100% {
+    box-shadow: 0 0 0 0.15em #c0392b;
+  }
+}
+
+@-webkit-keyframes myshadow /*Safari and Chrome*/
+{
+	 0% {
+    box-shadow: 0 0 0 0.00em #c0392b;
+  }
+  25% {
+    box-shadow: 0 0 0 0.25em #c0392b;
+  }
+  50% {
+    box-shadow: 0 0 0 0.50em #c0392b;
+  }
+  75% {
+    box-shadow: 0 0 0 0.25em #c0392b;
+  }
+  100% {
+    box-shadow: 0 0 0 0.15em #c0392b;
+  }
+}
+
+ .contact_right{
+	display:inline-block;
+ }
+
+/*侧边栏联系人 end*/
+
+
+  </style>
+ </head>
+ <body>
+
+<main id="main">
+  <!--统一22px-->
+	<nav id="left_nav">
+	<section class="nav_section">
+	<!--桌面通知-->
+	<div style="padding-top:6px">
+		<div style="line-height: 30px;display:inline-block">桌面通知</div>
+		<!--通知开关-->
+		<div id="switch">
+			<input id="cbox" type="checkbox" />
+			<label class="model" for="cbox">
+				<span class="point" for="cbox" data-on="开" data-off="关"></span>
+				<span class="circle" for="cbox"></span>
+			</label>
+		</div>
+		<!--通知开关 end-->
+	</div>
+	<!--桌面通知 end-->
+
+	<hr>
+	 <h3>联系人</h3>
+	 <hr>
+	 <ul class="nav_section_list">
+		<li>
+		 <!--单个联系人-->
+		 <div class="contact">
+		   <div class="contact_left">
+			<img style="max-height: 100%;" class="face_radius",height=50px,width=50px, src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg" />
+				<span class="contact_name">小明</span>
+				<span class="contact_msg_count">10</span>
+		   </div>
+		  </div>
+		  <!--单个联系人 end-->
+		  <hr>
+		</li>
+		<li>
+		<!--单个联系人-->
+			<div class="contact">
+		  <div class="contact_left">
+			<img style="max-height: 100%;" class="face_radius",height=50px,width=50px, src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg" />
+				<span class="contact_name">小明</span>
+				<span class="contact_msg_count">10</span>
+		  </div>
+		</div>
+		<!--单个联系人 end-->
+		<hr>
+		</li>
+		<li>
+			<!--单个联系人-->
+			<div class="contact">
+		  <div class="contact_left">
+			<img style="max-height: 100%;" class="face_radius",height=50px,width=50px, src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg" />
+				<span class="contact_name">小明</span>
+				<span style="position: relative;top: 10px;left: 2px;"  class="contact_msg_count" >9</span>
+		  </div>
+		</div>
+		<!--单个联系人end-->
+		<hr>
+		</li>
+	 </ul>
+	</section>
+</nav>
+
+<div id="btn_toggle">
+	<span id="msg_count" class="contact_msg_count" style="position:relative;top:4px;left:8px;text-align:center;color:#fff">29</span>
+</div>
+					 <!--文本域-->
+                	<div id="right_chatArea">
+
+					
+                		<!-- 左边聊天气泡隐藏 -->
+                		<div class="left_chat_area" id="left_chat_hide" style="display:none">
+                		<div class="clearfix msg">
+                			<div class="face_container">
+                			 <div class="face_left">
+                			<a class="face_left">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tb2.bdstatic.com/tb/editor/images/face/i_f25.png?t=20140803">
+                			</a>
+							 <p class="face_name">左边聊天气泡坐着发斯蒂芬发送的发送的水电费水电费发送的范德萨发送的</p>
+                			 </div>
+                			</div>
+							 
+                			<div class="content_left_container">
+                			   <div class="content_arrow"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">8888888888888888888888888888888887777777777775666666666666666677777777777775666666666677 </p>
+	                			</div>
+                			</div>
+                				<span class="time time_left">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!--左边聊天气泡隐藏 end -->
+
+		
+							
+										<!-- 右边聊天气泡隐藏 -->
+                		<div id="right_chat_hide" class="right_chat_area" style="display:none;">
+                		<div class="clearfix">
+                			<div class="face_container">
+                			 <div class="face_right pad">
+                			<a class="face_right">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+							<p class="face_name">当前1</p>
+                			 </div>
+                			</div>
+                			<div class="content_right_container">
+                			<div class="content_arrow_right"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">法师打发时发生地方</p>
+	                			</div>
+                			</div>
+                			<span class="time time_right">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 右边聊天气泡隐藏 end-->
+
+
+                		<!-- 左边聊天气泡 -->
+                		<div class="left_chat_area">
+                		<div class="clearfix msg">
+                			<div class="face_container">
+                			 <div class="face_left">
+                			<a class="face_left">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tb2.bdstatic.com/tb/editor/images/face/i_f25.png?t=20140803">
+                			</a>
+							 <p class="face_name">小红</p>
+                			 </div>
+                			</div>
+							 
+                			<div class="content_left_container">
+                			   <div class="content_arrow"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">我是滑稽hah滑稽h滑稽h滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h </p>
+	                			</div>
+                			</div>
+                				<span class="time time_left">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 左边聊天气泡 end -->
+                			
+                		<!-- 右边聊天气泡 -->
+                		<div class="right_chat_area">
+                		<div class="clearfix">
+                			<div class="face_container">
+                			 <div class="face_right pad">
+                			<a class="face_right">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+							 <p class="face_name">小明</p>
+                			 </div>
+                			</div>
+                			<div class="content_right_container">
+                			<div class="content_arrow_right"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">很厉害很厉害很厉害很厉害</p>
+	                			</div>
+                			</div>
+                			<span class="time time_right">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 右边聊天气泡 end-->
+                			
+                			<!-- 右边聊天气泡 -->
+                		<div class="right_chat_area">
+                		<div class="clearfix">
+                			<div class="face_container">
+                			 <div class="face_right pad">
+                			<a class="face_right">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+							<p class="face_name">小明</p>
+                			 </div>
+                			</div>
+                			<div class="content_right_container">
+                			<div class="content_arrow_right"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">很厉害很厉害很厉害很厉害</p>
+	                			</div>
+                			</div>
+                			<span class="time time_right">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 右边聊天气泡 end-->
+
+
+					<!-- 左边聊天气泡 -->
+                		<div class="left_chat_area">
+                		<div class="clearfix msg">
+                			<div class="face_container">
+                			 <div class="face_left">
+                			<a class="face_left">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tb2.bdstatic.com/tb/editor/images/face/i_f25.png?t=20140803">
+                			</a>
+							 <p class="face_name">小红</p>
+                			 </div>
+                			</div>
+							 
+                			<div class="content_left_container">
+                			   <div class="content_arrow"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">我是滑稽hah滑稽h滑稽h滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h 滑稽h </p>
+	                			</div>
+                			</div>
+                				<span class="time time_left">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 左边聊天气泡 end -->
+
+
+									<!-- 右边聊天气泡 -->
+                		<div class="right_chat_area">
+                		<div class="clearfix">
+                			<div class="face_container">
+                			 <div class="face_right pad">
+                			<a class="face_right">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+							<p class="face_name">小明</p>
+                			 </div>
+                			</div>
+                			<div class="content_right_container">
+                			<div class="content_arrow_right"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">很厉害很厉害很厉害很厉害</p>
+	                			</div>
+                			</div>
+                			<span class="time time_right">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 右边聊天气泡 end-->
+
+
+									<!-- 右边聊天气泡 -->
+                		<div class="right_chat_area">
+                		<div class="clearfix">
+                			<div class="face_container">
+                			 <div class="face_right pad">
+                			<a class="face_right">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+							<p class="face_name">小明</p>
+                			 </div>
+                			</div>
+                			<div class="content_right_container">
+                			<div class="content_arrow_right"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">很厉害很厉害很厉害很厉害</p>
+	                			</div>
+                			</div>
+                			<span class="time time_right">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 右边聊天气泡 end-->
+
+
+									<!-- 右边聊天气泡 -->
+                		<div class="right_chat_area">
+                		<div class="clearfix">
+                			<div class="face_container">
+                			 <div class="face_right pad">
+                			<a class="face_right">
+                				<img class="face_radius" height="50" width="50"  alt="" src="http://tva2.sinaimg.cn/crop.0.0.180.180.50/005ucAanjw8ed9w6bsypfj30500500so.jpg">
+                			</a>
+							<p class="face_name">小明</p>
+                			 </div>
+                			</div>
+                			<div class="content_right_container">
+                			<div class="content_arrow_right"></div>
+	                			<div class="content_left">
+	                				<p class="cotent_p">很厉害很厉害很厉害很厉害</p>
+	                			</div>
+                			</div>
+                			<span class="time time_right">2016-11-17 11:24:15</span>
+                			</div>
+                			</div>
+                			<!-- 右边聊天气泡 end-->
+
+                		</div>
+                	</div>
+                <!--文本域end-->
+				<!--右边聊天界面end-->
+				
+				<div id="footer">
+					<input type="text" id="msg_txt" maxlength="100" placeholder="请输入..."/>
+					<input type="button" id="msg_btn" value="发送"/>
+				</div>
+
+</main>
+
+
+
+ </body>
+ 
+</html>
