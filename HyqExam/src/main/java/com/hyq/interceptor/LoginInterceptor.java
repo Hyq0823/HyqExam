@@ -68,7 +68,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		}
 		
 		// 查询配置文件的所有公共的uri
-		InputStream in = Resources.getResourceAsStream("public.xml");
+		InputStream in = Resources.getResourceAsStream("config/public.xml");
 		Set<String> urlSets = XMLUtil.getPublicUrlNodeList(in);
 		
 		// 匹配 则放行

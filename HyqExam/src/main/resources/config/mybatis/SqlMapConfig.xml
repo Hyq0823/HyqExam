@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 
 	<!-- 引入数据库连接配置 -->
-	<properties resource="db.properties"></properties>
+	<properties resource="config/db.properties"></properties>
 	
 	<typeAliases>
 		<!-- 设置包级别的别名 默认别名是类名 大写小写都行(开发一般用小写) -->
