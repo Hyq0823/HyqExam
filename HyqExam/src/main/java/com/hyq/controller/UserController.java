@@ -30,6 +30,7 @@ import com.hyq.util.UUIDUtil;
 import com.hyq.vo.ResumeVo;
 import com.hyq.vo.UserRole2;
 import com.hyq.vo.User_Role;
+import org.apache.log4j.Logger;
 @Controller
 public class UserController{
 	@Autowired
@@ -40,6 +41,8 @@ public class UserController{
 	private NoticeService noticeService;
 	@Autowired
 	private RoleService roleService;
+	
+	private Logger logger = Logger.getLogger(UserController.class);
 
 	/**
 	 * 进入用户管理界面
@@ -229,6 +232,9 @@ public class UserController{
 	public String login(HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, String formtoken, User user)
 			throws Exception {
+	    
+	  logger.debug("登录请求 ： "+user);
+	    
 		// 判断是否是重复提交
 		String sessionToken = (String) session.getAttribute("token");
 		if (formtoken != null && !formtoken.equals(sessionToken)) {

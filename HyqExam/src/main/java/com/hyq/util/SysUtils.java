@@ -26,7 +26,7 @@ public class SysUtils {
 		Properties pt = new Properties();
 		InputStream in = null;
 		try {
-			Resource resource = resourceLoader.getResource("system.properties");
+			Resource resource = resourceLoader.getResource("config/system.properties");
 			in = resource.getInputStream();
 			pt.load(in);
 			return pt.getProperty(name);
