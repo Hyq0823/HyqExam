@@ -43,7 +43,7 @@ public class User {
 	private String idCardType;
 	
 	/**出生年月*/
-	private Date birth;
+	private String birth;
 	
 	/**当前状态*/
 	private String status;
@@ -51,20 +51,41 @@ public class User {
 	/**从医信息*/
 	private String doctorInfo;
 	
-	
 	private Role role;
 	
 	
+	/**微信openid*/
+	private String openid;
 	
-
-	
-	
-	
+	/**微信unionid*/
+	private String unionid;
+	/**头像*/
+	private String headimg;
 	
 //====================================================================
-	
-	
-	
+	public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
+	public String getUnionid() {
+		return unionid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+
+	public String getHeadimg() {
+		return headimg;
+	}
+
+	public void setHeadimg(String headimg) {
+		this.headimg = headimg;
+	}
 
 	public String getId() {
 		return id;
@@ -114,11 +135,11 @@ public class User {
 		this.idCardType = idCardType;
 	}
 
-	public Date getBirth() {
+	public String getBirth() {
 		return birth;
 	}
 
-	public void setBirth(Date birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 
