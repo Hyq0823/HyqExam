@@ -3,9 +3,15 @@ package com.hyq.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import net.sf.json.JSONObject;
+
 public class WeiXinUtils {
 	 // 与接口配置信息中的Token要一致
     private static String token = "hyq";
+    
+   private static  String appId = SysUtils.getPropertyByName("wexin.appid");
+   private static String appSecret = SysUtils.getPropertyByName("wexin.appSecret");
+	
     /**
      * 验证签名
      * 
@@ -83,4 +89,35 @@ public class WeiXinUtils {
             }
         }
     }
+
+    /**
+     * 通过code换取票据
+     * @param code
+     * @return
+     * @throws Exception
+     */
+	public static JSONObject code4AccessToken(String code) throws Exception {
+		//获取openid
+		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+appId+"&secret="+appSecret+"&code="+code+"&grant_type=authorization_code";
+//		logger.debug("获取微信的acces_token票据url:"+url);
+		String access_data = HttpUtils.doGet(url);
+//		logger.info("通过code换取的结果 :"+access_data);
+		return JSONObject.fromObject(access_data);
+	}
+
+	/**
+	 * 通过access_token和用户openid拉取用户信息
+	 * @param access_token
+	 * @param openId
+	 * @return
+	 * @throws Exception
+	 */
+	public static JSONObject tokenAndOpenId4UserInfo(String access_token, String openId) throws Exception {
+		//拉取用户信息
+		String getUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token="+access_token+"&openid="+openId+"&lang=zh_CN";
+		String uInfo = HttpUtils.doGet(getUserInfoUrl);
+		//解决微信返回用户信息乱码
+		uInfo = new String(uInfo.getBytes("iso-8859-1"),"utf-8");
+		return JSONObject.fromObject(uInfo);
+	}
 }

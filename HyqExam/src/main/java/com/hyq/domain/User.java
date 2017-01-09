@@ -60,7 +60,7 @@ public class User {
 	/**微信unionid*/
 	private String unionid;
 	/**头像*/
-	private String headimg;
+	private String headimgurl;
 	
 //====================================================================
 	public String getOpenid() {
@@ -79,12 +79,12 @@ public class User {
 		this.unionid = unionid;
 	}
 
-	public String getHeadimg() {
-		return headimg;
+	public String getHeadimgurl() {
+		return headimgurl;
 	}
 
-	public void setHeadimg(String headimg) {
-		this.headimg = headimg;
+	public void setHeadimgurl(String headimgurl) {
+		this.headimgurl = headimgurl;
 	}
 
 	public String getId() {
@@ -110,13 +110,12 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", nickname=" + nickname + ", truename="
-				+ truename + ", password=" + password + ", email=" + email
-				+ ", idCardNumber=" + idCardNumber + ", phone=" + phone
-				+ ", address=" + address + ", education=" + education
-				+ ", emplore=" + emplore + ", other=" + other + ", sex=" + sex
-				+ ", idCardType=" + idCardType + ", birth=" + birth
-				+ ", status=" + status + ", doctorInfo=" + doctorInfo + "]";
+		return "User [id=" + id + ", nickname=" + nickname + ", truename=" + truename + ", password=" + password
+				+ ", email=" + email + ", idCardNumber=" + idCardNumber + ", phone=" + phone + ", address=" + address
+				+ ", education=" + education + ", emplore=" + emplore + ", other=" + other + ", sex=" + sex
+				+ ", idCardType=" + idCardType + ", birth=" + birth + ", status=" + status + ", doctorInfo="
+				+ doctorInfo + ", role=" + role + ", openid=" + openid + ", unionid=" + unionid + ", headimgurl=" + headimgurl
+				+ "]";
 	}
 
 	public String getSex() {

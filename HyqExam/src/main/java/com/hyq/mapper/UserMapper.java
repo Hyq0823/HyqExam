@@ -62,8 +62,8 @@ public interface UserMapper {
 	public void saveInfoByAdmin(User user);
 	
 	public void deleteById(String id);
-	
 
+	public User getUserByOpenId(String openId);
 	
 
 }

@@ -68,4 +68,6 @@ public interface UserService {
 
 	public void deleteById(String id);
 
+	public User getUserByOpenId(String openId);
+
 }
