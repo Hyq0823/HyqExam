@@ -170,7 +170,15 @@
              <groupId>eu.bitwalker</groupId>
              <artifactId>UserAgentUtils</artifactId>
              <version>${UserAgentUtils-version}</version>
-</dependency>
+         </dependency>
+         
+    <!-- jedis客户端 -->
+    <dependency>
+        <groupId>redis.clients</groupId>
+        <artifactId>jedis</artifactId>
+        <version>2.9.0</version>
+    </dependency>
+             
 
   	
   	

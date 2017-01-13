@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +26,7 @@ import com.hyq.service.ApplyService;
 import com.hyq.service.NoticeService;
 import com.hyq.service.RoleService;
 import com.hyq.service.UserService;
+import com.hyq.util.RedisUtils;
 import com.hyq.util.ResponseUtil;
 import com.hyq.util.UUIDUtil;
 import com.hyq.vo.ResumeVo;
@@ -44,6 +46,15 @@ public class UserController{
 	
 	private Logger logger = Logger.getLogger(UserController.class);
 
+	
+	   
+    @RequestMapping("/abc")
+    public String test(Model model){
+        String value = RedisUtils.get("value");
+        model.addAttribute("message",value);
+        return "message";
+    }
+	
 	/**
 	 * 进入用户管理界面
 	 */
