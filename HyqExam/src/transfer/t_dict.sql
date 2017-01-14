@@ -31,6 +31,8 @@ CREATE TABLE `t_dict` (
 
 /*Data for the table `t_dict` */
 
+insert  into `t_dict`(`id`,`name`,`value`,`type`,`description`) values ('1','专科','1','dict_edu','学历'),('2','本科','2','dict_edu','学历'),('3','研究生','3','dict_edu','学历'),('4','博士','4','dict_edu','学历');
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
