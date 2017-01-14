@@ -17,5 +17,9 @@ public interface DictService {
 
     void save(Dict dict);
 
+    void upate(Dict dict);
+
+    void delete(Dict dict);
+
 	
 }

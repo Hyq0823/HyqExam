@@ -24,6 +24,14 @@ public class DictServiceImpl implements DictService{
         dict.setId(UUIDUtil.getUUID());
         dictMapper.save(dict);
     }
+    @Override
+    public void upate(Dict dict) {
+        dictMapper.update(dict);
+    }
+    @Override
+    public void delete(Dict dict) {
+        dictMapper.delete(dict);
+    }
 	
 
 }

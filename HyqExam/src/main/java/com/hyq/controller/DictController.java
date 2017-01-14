@@ -12,6 +12,7 @@ import com.hyq.domain.Dict;
 import com.hyq.service.DictService;
 import com.hyq.util.SpringUtils;
 @Controller
+@RequestMapping("/dict")
 public class DictController{
 	private Logger logger = Logger.getLogger(DictController.class);
 
@@ -19,7 +20,7 @@ public class DictController{
 	private DictService dictService;
 	
 	   
-    @RequestMapping("/dict")
+    @RequestMapping("/test")
     public String test(Model model){
         Dict dict = new Dict();
         dict.setType("dict_edu");
@@ -34,9 +35,22 @@ public class DictController{
     }
     
     
+    @RequestMapping("/save")
     public String save(Dict dict){
         dictService.save(dict);
-        return "";
+        return "redirect:/dict/list";
+    }
+    
+    @RequestMapping("/update")
+    public String update(Dict dict){
+        dictService.upate(dict);
+        return "redirect:/dict/list";
+    }
+    
+    @RequestMapping("/delete")
+    public String delete(Dict dict){
+        dictService.delete(dict);
+        return "redirect:/dict/list";
     }
 	
 	

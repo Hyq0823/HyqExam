@@ -9,4 +9,8 @@ public interface DictMapper {
     List<Dict> findListByType(Dict dict);
 
     void save(Dict dict);
+
+    void update(Dict dict);
+
+    void delete(Dict dict);
 }
