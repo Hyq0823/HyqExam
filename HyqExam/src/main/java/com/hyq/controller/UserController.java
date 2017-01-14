@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,13 +24,14 @@ import com.hyq.service.ApplyService;
 import com.hyq.service.NoticeService;
 import com.hyq.service.RoleService;
 import com.hyq.service.UserService;
-import com.hyq.util.RedisUtils;
 import com.hyq.util.ResponseUtil;
 import com.hyq.util.UUIDUtil;
 import com.hyq.vo.ResumeVo;
 import com.hyq.vo.UserRole2;
 import com.hyq.vo.User_Role;
-import org.apache.log4j.Logger;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 @Controller
 public class UserController{
 	@Autowired
@@ -50,8 +49,8 @@ public class UserController{
 	   
     @RequestMapping("/abc")
     public String test(Model model){
-        String value = RedisUtils.get("value");
-        model.addAttribute("message",value);
+//        String value = RedisUtils.get("value");
+//        model.addAttribute("message",value);
         return "message";
     }
 	
