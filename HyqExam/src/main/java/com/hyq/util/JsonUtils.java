@@ -1,10 +1,8 @@
 package com.hyq.util;
 
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +11,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
+/**
+ * 后期转换为使用jackson重新定义工具类
+ * @author hyq
+ *
+ */
 public class JsonUtils {
 
 	/**

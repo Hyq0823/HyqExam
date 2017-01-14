@@ -48,6 +48,12 @@ public class ApplyController {
 
 	@Autowired
 	private UserService userService;
+	
+	
+
+	
+	
+	
 
 	/**
 	 * 管理员——发布报名信息UI
