@@ -5,11 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.hyq.mapper.DictMapper">
 
-	<!-- 查询所有报名信息 -->
-	<select id="getAllApplyInfo" parameterType="applyInfo"
-		resultType="applyInfo">
-		select * from t_applyInfo
+	<select id="findListByType" parameterType="dict"
+		resultType="dict">
+		select id,name,value,type,description from t_dict
+		where type = #{type}
 	</select>
-
-
 </mapper>
