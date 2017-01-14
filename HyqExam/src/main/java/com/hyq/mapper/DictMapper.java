@@ -7,4 +7,6 @@ import com.hyq.domain.Dict;
 public interface DictMapper {
 
     List<Dict> findListByType(Dict dict);
+
+    void save(Dict dict);
 }

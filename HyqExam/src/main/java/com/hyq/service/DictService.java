@@ -15,5 +15,7 @@ public interface DictService {
 
     List<Dict> findListByType(Dict dict);
 
+    void save(Dict dict);
+
 	
 }

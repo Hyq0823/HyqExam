@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.hyq.domain.Dict;
 import com.hyq.mapper.DictMapper;
 import com.hyq.service.DictService;
+import com.hyq.util.UUIDUtil;
 
 @Service
 public class DictServiceImpl implements DictService{
@@ -17,6 +18,11 @@ public class DictServiceImpl implements DictService{
     @Override
     public List<Dict> findListByType(Dict dict) {
         return dictMapper.findListByType(dict);
+    }
+    @Override
+    public void save(Dict dict) {
+        dict.setId(UUIDUtil.getUUID());
+        dictMapper.save(dict);
     }
 	
 

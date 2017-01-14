@@ -32,6 +32,12 @@ public class DictController{
         model.addAttribute("type","");
         return "message";
     }
+    
+    
+    public String save(Dict dict){
+        dictService.save(dict);
+        return "";
+    }
 	
 	
 
