@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  */
 public class SpringUtils implements ApplicationContextAware,DisposableBean
 {
-	private static  ApplicationContext applicationContext = null;
+	public static  ApplicationContext applicationContext = null;
 	
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String beanName){
@@ -54,7 +54,7 @@ public class SpringUtils implements ApplicationContextAware,DisposableBean
 	}
 
 	public static void main(String[] args) {
-		System.out.println( SpringUtils.applicationContext);
+		System.out.println(applicationContext);
 	}
 	
 

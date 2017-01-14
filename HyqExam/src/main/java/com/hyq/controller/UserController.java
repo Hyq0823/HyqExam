@@ -544,7 +544,7 @@ public class UserController{
 	 * @return
 	 */
 
-	@RequestMapping("/Background/home")
+	@RequestMapping("/admin/home")
 	public String ToMain() {
 		// 查询内容
 		System.out.println("后台---去首页");
