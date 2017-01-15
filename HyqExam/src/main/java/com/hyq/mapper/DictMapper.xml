@@ -6,11 +6,13 @@
 	<select id="findListByType" parameterType="dict"
 		resultType="dict">
 		select id,name,value,type,description from t_dict
-		where type = #{type}
+		<if test="type!=null and type !='' ">
+			where type = #{type}
+		</if>
 	</select>
 	
 	<insert id="save">
-	 insert into t_dict(name,value,type,description) values(#{name},#{value},#{type},#{description})
+	 insert into t_dict(id,name,value,type,description) values(#{id},#{name},#{value},#{type},#{description})
 	</insert>
 	
 	<update id="update">

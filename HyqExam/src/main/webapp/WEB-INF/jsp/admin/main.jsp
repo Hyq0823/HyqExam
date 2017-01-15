@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/common/headLink.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>三和报考系统-后台管理</title>
 
-<jsp:include page="/common/headLink.jsp"></jsp:include>
 <script type="text/javascript">
 $(document).ready(function(e) {
     //页面加载完成后启动查询消息的定时
-    checkMyMsg();
-   setInterval("checkMyMsg()",15000);
+  //  checkMyMsg();
+   //setInterval("checkMyMsg()",15000);
 });
 
 
@@ -223,6 +224,12 @@ function sendMsg()
 			<a href="javascript:openTab('添加试题','question/addQuestionUI.action','icon-grxxxg')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-grxxxg'" style="width: 150px;">添加试题</a>
 			<a href="javascript:openTab('试题管理','question/manageQuestion.action','icon-grxxxg')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-grxxxg'" style="width: 150px;">试题管理</a>
 		</div>
+		
+		<div title="字典管理"  data-options="iconCls:'icon-system'" style="padding:10px">
+			<a href="javascript:openTab('字典管理','dict/list','icon-grxxxg')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-grxxxg'" style="width: 150px;">字典管理</a>
+			<a href="javascript:openTab('添加字典','dict/form','icon-grxxxg')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-grxxxg'" style="width: 150px;">添加字典</a>
+		</div>
+		
 	</div>
 </div>
 <div region="south" style="height: 25px;padding: 5px" align="center">

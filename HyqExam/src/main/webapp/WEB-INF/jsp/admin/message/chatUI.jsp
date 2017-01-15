@@ -41,7 +41,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		//开启定时器定时轮询消息
-		setInterval("getMessage()", 15000);
+		//setInterval("getMessage()", 15000);
 	});
 
 	function getMessage() {
