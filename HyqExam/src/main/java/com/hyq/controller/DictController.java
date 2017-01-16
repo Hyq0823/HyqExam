@@ -20,20 +20,18 @@ public class DictController{
 	private DictService dictService;
 	
 	   
-    @RequestMapping("/test")
-    public String test(Model model){
-        Dict dict = new Dict();
-        dict.setType("dict_edu");
+    @RequestMapping({"/list",""})
+    public String test(Dict dict,Model model){
          List<Dict> list = dictService.findListByType(dict);
-         StringBuffer sb = new StringBuffer();
-         for(Dict d : list){
-             sb.append(d.getName()+" | ");
-         }
-        model.addAttribute("message",sb.toString());
-        model.addAttribute("type","");
-        return "message";
+         model.addAttribute("dicts", list);
+        return "admin/dict/list";
     }
     
+    @RequestMapping("/form")
+    public String form(Dict dict,Model model){
+    	model.addAttribute("dict",dict);
+    	return "admin/dict/form";
+    }
     
     @RequestMapping("/save")
     public String save(Dict dict){
