@@ -1,4 +1,8 @@
 package com.hyq.util;
+import javax.swing.Spring;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
  */
 public class SpringUtils implements ApplicationContextAware,DisposableBean
 {
+    private static Logger logger = LoggerFactory.getLogger(SpringUtils.class);
 	public static  ApplicationContext applicationContext = null;
 	
 	@SuppressWarnings("unchecked")
@@ -39,7 +44,7 @@ public class SpringUtils implements ApplicationContextAware,DisposableBean
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
-		System.out.println("springUtils工具类注入的applicationContext");
+		logger.info("springUtils工具类注入的applicationContex: {}",applicationContext);
 		SpringUtils.applicationContext = applicationContext;
 	}
 	

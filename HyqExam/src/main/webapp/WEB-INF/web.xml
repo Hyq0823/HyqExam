@@ -7,6 +7,17 @@
 	<welcome-file-list>
 		<welcome-file>temp.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<!-- 指定log4j配置文件log4j.properties的位置（如果是在classpath根路径下，可以不配置） -->  
+<context-param>  
+    <param-name>log4jConfigLocation</param-name>  
+    <param-value>classpath:config/log4j.properties</param-value>  
+</context-param>  
+
+<!-- 配置spring中对于log4j的listener,注意该Listener要在spring的listener之前 -->  
+<listener>  
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>  
+</listener>  
 
 
 	<!-- 加载spring容器的监听器配置 -->
